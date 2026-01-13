@@ -1,34 +1,45 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// src/App.jsx
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { AuthProvider } from './context/AuthContext'
+import { Toaster } from './components/ui/Toaster'
+
+// Layout
+import Header from './components/Header'
+
+// Pages
+import Home from './pages/Home'
+import Play from './pages/Play'
+import HowToPlay from './pages/HowToPlay'
+import Stats from './pages/Stats'
+import Profile from './pages/Profile'
+import NotFound from './pages/NotFound'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <AuthProvider>
+      <BrowserRouter>
+        <div className="min-h-screen bg-gray-50 flex flex-col">
+          <Header />
+          
+          <main className="flex-1 container mx-auto px-4 py-6 max-w-2xl">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/play" element={<Play />} />
+              <Route path="/how-to-play" element={<HowToPlay />} />
+              <Route path="/stats" element={<Stats />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </main>
+
+          <footer className="text-center py-4 text-gray-500 text-sm">
+            Made with ❤️ | Fragmentle © {new Date().getFullYear()}
+          </footer>
+        </div>
+        
+        <Toaster />
+      </BrowserRouter>
+    </AuthProvider>
   )
 }
 
